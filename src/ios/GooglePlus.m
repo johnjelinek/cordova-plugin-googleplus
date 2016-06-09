@@ -7,7 +7,7 @@
  @author Eddy Verbruggen
  */
 
-/** 
+/**
   Updates to be more aligned with updated Android version and with Google.
  @date March 15, 2015
  @author Sam Muggleworth (PointSource, LLC)
@@ -22,6 +22,12 @@ static void swizzleMethod(Class class, SEL destinationSelector, SEL sourceSelect
   swizzleMethod([AppDelegate class],
                 @selector(application:openURL:sourceApplication:annotation:),
                 @selector(identity_application:openURL:sourceApplication:annotation:));
+}
+
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary *)options {
+    return [[GIDSignIn sharedInstance] handleURL:url sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey] annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
 }
 
 /** Google Sign-In SDK
